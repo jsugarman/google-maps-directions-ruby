@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-require_relative 'lib/google-maps-directions/version'
+require_relative 'lib/google_maps/directions/version'
 
 Gem::Specification.new do |spec|
   spec.name          = 'google-maps-directions'
-  spec.version       = Google::Maps::Directions::VERSION
+  spec.version       = GoogleMaps::Directions::VERSION
   spec.authors       = ['jsugarman']
   spec.email         = ['joel.sugarman@digital.justice.gov.uk']
 
@@ -29,15 +29,17 @@ Gem::Specification.new do |spec|
   spec.executables   = spec.files.grep(%r{\Aexe/}) { |f| File.basename(f) }
   spec.require_paths = ['lib']
 
-  # Uncomment to register a new dependency of your gem
-  # spec.add_dependency 'example-gem', '~> 1.0'
-
   # For more information and examples about making a new gem, checkout our
   # guide at: https://bundler.io/guides/creating_gem.html
+
+  # runtime dependencies
+  spec.add_runtime_dependency 'addressable', '~> 2.3', '>= 2.3.7'
+  spec.add_runtime_dependency 'faraday', '~> 1.0'
 
   # development dependencies
   spec.add_development_dependency 'awesome_print'
   spec.add_development_dependency 'bundler', '~> 2.2.15'
+  spec.add_development_dependency 'dotenv'
   spec.add_development_dependency 'pry-byebug'
   spec.add_development_dependency 'rake', '~> 13.0'
   spec.add_development_dependency 'rspec', '~> 3.10'

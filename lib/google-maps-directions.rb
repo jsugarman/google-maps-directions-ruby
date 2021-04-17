@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require_relative "google-maps-directions/version"
+require_relative 'google-maps-directions/version'
 
 module Google
   module Maps

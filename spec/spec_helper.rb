@@ -3,8 +3,11 @@
 require 'dotenv'
 Dotenv.load('.env.test.local')
 
-require 'google-maps-directions'
+require 'awesome_print'
 require 'pry-byebug'
+require 'webmock/rspec'
+
+require 'google-maps-directions'
 
 # gem testing config
 GoogleMaps::Directions.configure do |config|
@@ -113,3 +116,8 @@ RSpec.configure do |config|
   # Kernel.srand config.seed
   # -- END SUGGESTIONS
 end
+
+#######################################################
+# Mocking
+#######################################################
+WebMock.disable_net_connect!(allow_localhost: true)

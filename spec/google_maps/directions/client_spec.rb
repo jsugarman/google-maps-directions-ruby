@@ -3,8 +3,8 @@
 require 'support/directions_stubs'
 
 RSpec.describe GoogleMaps::Directions::Client do
-  it { is_expected.to respond_to(:api_key) }
-  it { is_expected.to respond_to(:default_options) }
+  it { is_expected.to respond_to(:api_key, :api_key=) }
+  it { is_expected.to respond_to(:default_options, :default_options=) }
   it { is_expected.to respond_to(:directions) }
 
   describe '.new' do

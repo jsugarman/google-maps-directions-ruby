@@ -5,5 +5,7 @@
 module GoogleMaps
   module Directions
     class Error < StandardError; end
+
+    class RequestDeniedError < Error; end
   end
 end

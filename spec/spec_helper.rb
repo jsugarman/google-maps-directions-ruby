@@ -45,7 +45,14 @@ RSpec.configure do |config|
     expectations.include_chain_clauses_in_custom_matcher_descriptions = true
   end
 
-  config.filter_run_including :focus => true
+  # These two settings work together to allow you to limit a spec run
+  # to individual examples or groups you care about by tagging them with
+  # `:focus` metadata. When nothing is tagged with `:focus`, all examples
+  # get run.
+  # NOTE: you can also use `fit`, `fdescribe`, `fcontext` to focus specs
+  #
+  config.filter_run_including focus: true
+  config.run_all_when_everything_filtered = true
 
   # rspec-mocks config goes here. You can use an alternate test double
   # library (such as bogus or mocha) by changing the `mock_with` option here.
@@ -119,7 +126,5 @@ RSpec.configure do |config|
   # -- END SUGGESTIONS
 end
 
-#######################################################
-# Mocking
-#######################################################
+# disable external requests by default
 WebMock.disable_net_connect!(allow_localhost: true)

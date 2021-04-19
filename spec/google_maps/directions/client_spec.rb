@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'support/directions_stubs'
+
 RSpec.describe GoogleMaps::Directions::Client do
   it { is_expected.to respond_to(:api_key) }
   it { is_expected.to respond_to(:directions) }
@@ -25,17 +27,45 @@ RSpec.describe GoogleMaps::Directions::Client do
   end
 
   describe '#directions' do
-    subject(:directions) { instance.directions(origin: origin, destination: destination, **options) }
+    subject(:directions) { client.directions(**params, **options) }
 
-    let(:instance) { described_class.new(key) }
-    let(:key) { 'not-a-real-api-key' }
-    let(:options) { { region: 'uk', alternatives: true } }
+    let(:client) { described_class.new(api_key) }
+    let(:api_key) { 'not-a-real-api-key' }
+    let(:params) { { origin: 'SW1A 1AA', destination: 'MK40 1HG' } }
+    let(:options) { {} }
 
-    context 'with postcodes with' do
-      let(:origin) { 'SW1A 1AA' }
-      let(:destination) { 'MK40 1HG' }
-
-      it { is_expected.to be_a(Hash) }
+    let(:expected_uri) do
+      uri = Addressable::URI.parse('https://maps.googleapis.com/maps/api/directions/json')
+      uri.query_values = { key: 'not-a-real-api-key', origin: 'SW1A 1AA', destination: 'MK40 1HG' }
+      uri
     end
+
+    context 'with valid request and response', valid_response: true do
+      it {
+        directions
+        expect(a_request(:get, expected_uri))
+          .to have_been_made.once
+      }
+
+      it { is_expected.to be_a(GoogleMaps::Directions::Result) }
+
+      # TODO: to be moved to a distance object?!
+      it {
+        distance = directions['routes'][0]['legs'][0]['distance']['value']
+        expect(distance).to be_an(Integer)
+      }
+    end
+
+    context 'with invalid api key', request_denied: true do
+      it {
+        expect { directions }.to raise_error GoogleMaps::Directions::RequestDeniedError, /API key is invalid/
+      }
+    end
+
+    # TODO: with invalid origin
+    # TODO: with invalid destination
+    # TODO: with invalid option
+    # TODO: with origin as array
+    # TODO: with destination as array
   end
 end

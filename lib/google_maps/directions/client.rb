@@ -2,7 +2,6 @@
 
 require 'addressable'
 require 'faraday'
-require 'json'
 
 module GoogleMaps
   module Directions
@@ -10,10 +9,9 @@ module GoogleMaps
     #
     # client = GoogleMaps::Directions::Client.new(api_key: 'my-api-key')
     # options = { region: 'uk', alternatives: true }
-    # client.directions(origin: 'SW1A 1AA', destination: 'SW1A 2AA', options)
-    #
-    # request => https://maps.googleapis.com/maps/api/directions/json?origin=SW1A%201AA&destination=SW1A%202AA&key=my-api-key
-    # => hash of directions <= json response
+    # direction = client.directions(origin: 'SW1A 1AA', destination: 'SW1A 2AA', options)
+    # direction.longest/max
+    # direction.shortest/min
     #
     class Client
       attr_accessor :api_key
@@ -24,14 +22,38 @@ module GoogleMaps
 
       def directions(origin:, destination:, **options)
         uri.query_values = { key: api_key, origin: origin, destination: destination, **options }
-        json = Faraday.get(uri).body
-        JSON.parse(json)
+        response = request(uri)
+
+        result = GoogleMaps::Directions::Result.new(response)
+        return result if result.success?
+
+        handle_error(result)
       end
 
       private
 
+      def request(uri)
+        Faraday.get(uri).body
+      end
+
+      def handle_error(result)
+        case result['status']
+        when 'OK'
+          nil
+        when 'REQUEST_DENIED'
+          raise RequestDeniedError, result['error_message']
+        else
+          raise Error, result.fetch('error_message',
+                                    "#{result['status']} status from directions API")
+        end
+      end
+
       def uri
-        @uri ||= Addressable::URI.parse(GoogleMaps::Directions.path)
+        @uri ||= Addressable::URI.parse(directions_path)
+      end
+
+      def directions_path
+        GoogleMaps::Directions.path
       end
     end
   end

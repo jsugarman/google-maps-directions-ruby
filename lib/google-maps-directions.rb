@@ -2,7 +2,9 @@
 
 require_relative 'google_maps/directions'
 require_relative 'google_maps/directions/version'
+require_relative 'google_maps/directions/errors'
 require_relative 'google_maps/directions/configuration'
+require_relative 'google_maps/directions/result'
 require_relative 'google_maps/directions/client'
 
 # Container for GoogleMaps level functionality

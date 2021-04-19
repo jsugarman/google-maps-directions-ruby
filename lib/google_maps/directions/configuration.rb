@@ -16,23 +16,10 @@ module GoogleMaps
     # for more on direction_options
     #
     class Configuration
-      attr_accessor :host, :api_key
-      attr_reader :direction_options
+      attr_accessor :api_key, :default_options
 
       def initialize
-        @host = host || GoogleMaps::Directions.path
-        @api_key = api_key
-        @direction_options = default_direction_options.merge(direction_options || {})
-      end
-
-      def direction_options=(options = {})
-        default_direction_options.merge(options || {})
-      end
-
-      private
-
-      def default_direction_options
-        { mode: 'driving' }
+        @default_options = {}
       end
     end
   end

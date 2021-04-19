@@ -5,7 +5,16 @@ RSpec.configure do |config|
     stub_request(:get, %r{https://maps.googleapis.com/maps/api/directions/json\?.*})
       .to_return(
         status: 200,
-        body: valid_response,
+        body: read_stub('valid_response'),
+        headers: { 'Content-Type' => 'application/json; charset=utf-8' }
+      )
+  end
+
+  config.before(:each, valid_response_with_alternatives: true) do
+    stub_request(:get, %r{https://maps.googleapis.com/maps/api/directions/json\?.*})
+      .to_return(
+        status: 200,
+        body: read_stub('valid_response_with_alternatives'),
         headers: { 'Content-Type' => 'application/json; charset=utf-8' }
       )
   end
@@ -19,8 +28,8 @@ RSpec.configure do |config|
       )
   end
 
-  def valid_response
-    File.read('./spec/fixtures/stubs/valid_response.json')
+  def read_stub(file_name)
+    File.read("./spec/fixtures/stubs/#{file_name}.json")
   end
 
   def status_request_denied

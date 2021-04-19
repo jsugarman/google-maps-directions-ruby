@@ -14,16 +14,16 @@ module GoogleMaps
     # direction.shortest/min
     #
     class Client
-      attr_accessor :api_key
+      attr_accessor :api_key, :default_options
 
       def initialize(api_key = nil)
         self.api_key = api_key || GoogleMaps::Directions.config.api_key
+        self.default_options = GoogleMaps::Directions.config.default_options
       end
 
       def directions(origin:, destination:, **options)
-        uri.query_values = { key: api_key, origin: origin, destination: destination, **options }
+        uri.query_values = default_options.merge({ key: api_key, origin: origin, destination: destination, **options })
         response = request(uri)
-
         result = GoogleMaps::Directions::Result.new(response)
         return result if result.success?
 

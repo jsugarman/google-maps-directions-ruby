@@ -19,12 +19,16 @@ module GoogleMaps
     # direction.shortest/min
     #
     class Client
+      extend Forwardable
+
       attr_accessor :api_key, :adaptor, :default_options
 
-      def initialize(api_key = nil, adaptor: Faraday)
-        self.api_key = api_key || GoogleMaps::Directions.config.api_key
+      def_delegator 'GoogleMaps::Directions', :config
+
+      def initialize(adaptor: Faraday)
         self.adaptor = adaptor
-        self.default_options = GoogleMaps::Directions.config.default_options
+        self.api_key = config.api_key
+        self.default_options = config.default_options
       end
 
       def directions(origin:, destination:, **options)

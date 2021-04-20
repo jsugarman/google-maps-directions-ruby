@@ -23,10 +23,14 @@ RSpec.describe GoogleMaps::Directions::Client do
       it { is_expected.to have_attributes(api_key: 'my-api-key-from-config') }
     end
 
-    context 'with api key set in call' do
-      subject(:client) { described_class.new('my-api-key-from-args') }
+    context 'with api key set by writer' do
+      subject(:client) { described_class.new }
 
-      it { is_expected.to have_attributes(api_key: 'my-api-key-from-args') }
+      before do
+        client.api_key = 'my-api-key-by-writer'
+      end
+
+      it { is_expected.to have_attributes(api_key: 'my-api-key-by-writer') }
     end
 
     context 'when default options set in config' do
@@ -48,7 +52,7 @@ RSpec.describe GoogleMaps::Directions::Client do
   describe '#directions' do
     subject(:directions) { client.directions(**params, **options) }
 
-    let(:client) { described_class.new(api_key) }
+    let(:client) { described_class.new }
     let(:api_key) { 'not-a-real-api-key' }
     let(:params) { { origin: 'SW1A 1AA', destination: 'MK40 1HG' } }
     let(:options) { {} }

@@ -13,6 +13,8 @@ module GoogleMaps
     # => '216 km'
     #
     class Distance
+      include Comparable
+
       attr_reader :route, :leg
 
       def initialize(route, leg: 0)
@@ -20,15 +22,25 @@ module GoogleMaps
         @leg = leg
       end
 
-      # TODO: legs are when waypioints have been setup (without a via:).
+      def <=>(other)
+        value <=> other.value
+      end
+
+      # TODO: legs are when waypoints have been setup (without a via:).
       # In such cases the total distance will be the sum of all legs
       #
       def value
-        route['legs'][leg]['distance']['value']
+        distance['value']
       end
 
       def text
-        route['legs'][leg]['distance']['text']
+        distance['text']
+      end
+
+      private
+
+      def distance
+        @distance ||= route['legs'][leg]['distance']
       end
     end
   end

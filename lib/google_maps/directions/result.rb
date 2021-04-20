@@ -31,7 +31,7 @@ module GoogleMaps
       end
 
       def distances
-        result['routes'].map do |route|
+        @distances ||= result['routes'].map do |route|
           Distance.new(route)
         end
       end

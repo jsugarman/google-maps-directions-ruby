@@ -9,22 +9,27 @@ module GoogleMaps
     #
     # client = GoogleMaps::Directions::Client.new(api_key: 'my-api-key')
     # options = { region: 'uk', alternatives: true }
-    # direction = client.directions(origin: 'SW1A 1AA', destination: 'SW1A 2AA', options)
+    # result = client.directions(origin: 'SW1A 1AA', destination: 'SW1A 2AA', options)
+    # distance = result.distances.max
+    # distance.value
+    # => 9999 [in units/metres]
+    # distance.text
+    # => 9999 [in units/imperial/metric (miles/kilometres)]
     # direction.longest/max
     # direction.shortest/min
     #
     class Client
-      attr_accessor :api_key, :default_options
+      attr_accessor :api_key, :adaptor, :default_options
 
-      def initialize(api_key = nil)
+      def initialize(api_key = nil, adaptor: Faraday)
         self.api_key = api_key || GoogleMaps::Directions.config.api_key
+        self.adaptor = adaptor
         self.default_options = GoogleMaps::Directions.config.default_options
       end
 
       def directions(origin:, destination:, **options)
-        uri.query_values = default_options.merge({ key: api_key, origin: origin, destination: destination, **options })
-        response = request(uri)
-        result = GoogleMaps::Directions::Result.new(response)
+        response = request(origin, destination, **options)
+        result = GoogleMaps::Directions::Result.new(response.body)
         return result if result.success?
 
         handle_error(result)
@@ -32,8 +37,17 @@ module GoogleMaps
 
       private
 
-      def request(uri)
-        Faraday.get(uri).body
+      def request(origin, destination, **options)
+        uri.query_values = default_options.merge({ key: api_key, origin: origin, destination: destination, **options })
+        adaptor.get(uri)
+      end
+
+      def uri
+        @uri ||= Addressable::URI.parse(directions_path)
+      end
+
+      def directions_path
+        GoogleMaps::Directions.path
       end
 
       def handle_error(result)
@@ -46,14 +60,6 @@ module GoogleMaps
           raise Error, result.fetch('error_message',
                                     "#{result['status']} status from directions API")
         end
-      end
-
-      def uri
-        @uri ||= Addressable::URI.parse(directions_path)
-      end
-
-      def directions_path
-        GoogleMaps::Directions.path
       end
     end
   end

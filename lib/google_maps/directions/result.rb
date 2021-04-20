@@ -29,6 +29,12 @@ module GoogleMaps
       def success?
         result['status'].eql?('OK')
       end
+
+      def distances
+        result['routes'].map do |route|
+          Distance.new(route)
+        end
+      end
     end
   end
 end

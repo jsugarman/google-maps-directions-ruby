@@ -15,8 +15,6 @@ module GoogleMaps
     # => 9999 [in units/metres]
     # distance.text
     # => 9999 [in units/imperial/metric (miles/kilometres)]
-    # direction.longest/max
-    # direction.shortest/min
     #
     class Client
       extend Forwardable

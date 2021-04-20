@@ -24,3 +24,11 @@ Metrics/BlockLength:
 Style/StringLiterals:
   Enabled: true
   EnforcedStyle: single_quotes
+
+RSpec/ExampleLength:
+  Exclude:
+    - spec/integrations/**/*
+
+RSpec/MultipleExpectations:
+  Exclude:
+    - spec/integrations/**/*

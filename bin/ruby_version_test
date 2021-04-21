@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-rubies=("ruby-2.6.6" "ruby-2.7.1" "ruby-2.7.2" "ruby-2.7.3")
+rubies=("ruby-2.6.6" "ruby-2.7.3" "ruby-3.0.1")
 for i in "${rubies[@]}"
 do
   printf "$i..."

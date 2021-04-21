@@ -14,10 +14,21 @@ Naming/FileName:
   Exclude:
     - lib/google-maps-directions.rb
 
+Metrics/BlockLength:
+  Exclude:
+    - '*.gemspec'
+    - 'Gemfile'
+    - 'Rakefile'
+    - 'spec/**/*.rb'
+
 Style/StringLiterals:
   Enabled: true
   EnforcedStyle: single_quotes
 
-Style/StringLiteralsInInterpolation:
-  Enabled: true
-  EnforcedStyle: double_quotes
+RSpec/ExampleLength:
+  Exclude:
+    - spec/integrations/**/*
+
+RSpec/MultipleExpectations:
+  Exclude:
+    - spec/integrations/**/*

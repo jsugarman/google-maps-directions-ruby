@@ -14,7 +14,7 @@ module GoogleMaps
     # distance.value
     # => 9999 [in units/metres]
     # distance.text
-    # => 9999 [in units/imperial/metric (miles/kilometres)]
+    # => '10 km' [in units/imperial/metric (miles/kilometres)]
     #
     class Client
       extend Forwardable

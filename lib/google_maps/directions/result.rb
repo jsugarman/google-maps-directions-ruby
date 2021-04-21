@@ -19,7 +19,7 @@ module GoogleMaps
 
       attr_reader :response, :result
 
-      def_delegator :result, :[]
+      def_delegators :result, :[], :fetch
 
       def initialize(response)
         @response = response

@@ -114,6 +114,20 @@ RSpec.describe GoogleMaps::Directions::Client do
       }
     end
 
+    context 'when unexpected error' do
+      context 'with error_message', unexpected_error: true do
+        it {
+          expect { directions }.to raise_error GoogleMaps::Directions::Error, /oops, something went wrong!/
+        }
+      end
+
+      context 'with no error_message', unexpected_error_without_message: true do
+        it {
+          expect { directions }.to raise_error GoogleMaps::Directions::Error, /UNEXPECTED_ERROR status from directions API/
+        }
+      end
+    end
+
     # TODO: with invalid origin
     # TODO: with invalid destination
     # TODO: with invalid option

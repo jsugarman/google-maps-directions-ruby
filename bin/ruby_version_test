@@ -1,0 +1,13 @@
+#!/usr/bin/env sh
+
+rubies=("ruby-2.6.6" "ruby-2.7.1" "ruby-2.7.2" "ruby-2.7.3")
+for i in "${rubies[@]}"
+do
+  printf "$i..."
+  if [[ $(rvm list | grep $i) ]]; then printf "\e[33minstalled\e[0m..."; else printf "\e[33minstalling\e[0m...\n"; rvm install $i; fi
+  rvm $i exec gem install bundler 1> /dev/null
+  rvm $i exec bundle install 1> /dev/null
+  rvm $i exec bundle exec rspec -fp 1> /dev/null
+  status=$?
+  [ $status -eq 0 ] && printf "\e[32mpassed\e[0m\n" || printf "\e[31mfailed\e[0m\n"
+done

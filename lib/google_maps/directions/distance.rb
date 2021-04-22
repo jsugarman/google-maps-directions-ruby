@@ -15,20 +15,16 @@ module GoogleMaps
     class Distance
       include Comparable
 
-      attr_reader :route, :leg
+      attr_reader :route
 
-      def initialize(route, leg: 0)
+      def initialize(route)
         @route = route
-        @leg = leg
       end
 
       def <=>(other)
         value <=> other.value
       end
 
-      # TODO: legs are when waypoints have been setup (without a via:).
-      # In such cases the total distance will be the sum of all legs
-      #
       def value
         distance['value']
       end
@@ -40,7 +36,18 @@ module GoogleMaps
       private
 
       def distance
-        @distance ||= route['legs'][leg]['distance']
+        @distance ||= { 'value' => total, 'text' => total_units }
+      end
+
+      def total
+        @total ||= route['legs'].sum { |leg| leg['distance']['value'] }
+      end
+
+      # TODO: need to handle units dynamically (i.e. metric/imperial, km/miles)
+      # https://developers.google.com/maps/documentation/directions/get-directions#unit-systems
+      #
+      def total_units
+        "#{(total / 1000).round} km"
       end
     end
   end

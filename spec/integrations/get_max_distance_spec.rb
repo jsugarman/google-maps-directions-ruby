@@ -26,9 +26,16 @@ RSpec.describe 'Get distances for journey', type: :feature do
     end
   end
 
-  # context 'with single route with multiple legs each' do
-  # end
+  context 'with single route with multiple legs each', valid_response_with_multiple_legs: true do
+    let(:options) { { region: 'uk', alternatives: true, waypoints: 'MK40 1AJ' } }
+    let(:result) { client.directions(origin: 'SW1A 1AA', destination: 'DY1 3HQ', **options) }
+    let(:total_distance_from_stub) { 242_926 }
 
-  # context 'with mutiple routes with multiple legs each' do
+    it 'returns sum of leg distance' do
+      expect(result.distances.first.value).to be total_distance_from_stub
+    end
+  end
+
+  # context 'with multiple routes with multiple legs each' do
   # end
 end

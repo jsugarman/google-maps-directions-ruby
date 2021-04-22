@@ -2,23 +2,54 @@
 
 require 'support/directions_stubs'
 
+RSpec.shared_context 'with single leg' do
+  let(:route) do
+    { 'legs' => [{ 'distance' => { 'text' => '201 km',
+                                   'value' => 201_001 } }] }
+  end
+end
+
+RSpec.shared_context 'with mutiple legs' do
+  let(:route) do
+    { 'legs' => [{ 'distance' => { 'text' => '201 km',
+                                   'value' => 201_001 } },
+                 { 'distance' => { 'text' => '201 km',
+                                   'value' => 201_001 } }] }
+  end
+end
+
 RSpec.describe GoogleMaps::Directions::Distance do
   subject(:distance) { described_class.new(route) }
-
-  let(:route) do
-    { 'legs' => [{ 'distance' => { 'text' => '216 km',
-                                   'value' => 216_312 } }] }
-  end
 
   describe '#value' do
     subject(:value) { distance.value }
 
-    it { is_expected.to be 216_312 }
+    context 'with single leg' do
+      include_context 'with single leg'
+
+      it { is_expected.to be 201_001 }
+    end
+
+    context 'with multiple legs' do
+      include_context 'with mutiple legs'
+
+      it { is_expected.to be 402_002 }
+    end
   end
 
   describe '#text' do
     subject(:text) { distance.text }
 
-    it { is_expected.to eql '216 km' }
+    context 'with single leg' do
+      include_context 'with single leg'
+
+      it { is_expected.to eql '201 km' }
+    end
+
+    context 'with multiple legs' do
+      include_context 'with mutiple legs'
+
+      it { is_expected.to eql '402 km' }
+    end
   end
 end

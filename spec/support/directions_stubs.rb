@@ -19,6 +19,15 @@ RSpec.configure do |config|
       )
   end
 
+  config.before(:each, valid_response_with_multiple_legs: true) do
+    stub_request(:get, %r{https://maps.googleapis.com/maps/api/directions/json\?.*})
+      .to_return(
+        status: 200,
+        body: read_stub('valid_response_with_multiple_legs'),
+        headers: { 'Content-Type' => 'application/json; charset=utf-8' }
+      )
+  end
+
   config.before(:each, request_denied: true) do
     stub_request(:get, %r{https://maps.googleapis.com/maps/api/directions/json\?.*})
       .to_return(

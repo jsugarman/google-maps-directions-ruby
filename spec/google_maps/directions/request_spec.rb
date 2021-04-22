@@ -63,7 +63,7 @@ RSpec.describe GoogleMaps::Directions::Request do
       end
 
       it 'request includes default options set in config' do
-        request.get('disneyland', 'neverland', options)
+        request.get('disneyland', 'neverland', **options)
         expect(a_request(:get, expected_uri))
           .to have_been_made.once
       end

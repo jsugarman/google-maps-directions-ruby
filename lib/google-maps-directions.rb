@@ -5,6 +5,7 @@ require_relative 'google_maps/directions/version'
 require_relative 'google_maps/directions/errors'
 require_relative 'google_maps/directions/configuration'
 require_relative 'google_maps/directions/distance'
+require_relative 'google_maps/directions/request'
 require_relative 'google_maps/directions/result'
 require_relative 'google_maps/directions/client'
 

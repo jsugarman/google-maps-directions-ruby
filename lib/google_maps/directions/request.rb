@@ -5,6 +5,22 @@ require 'faraday'
 
 module GoogleMaps
   module Directions
+    # Make request to the Google maps directions API
+    #
+    # @example simple request
+    #   response = Request.get('disneyland', neverland, region: 'us', mode: 'walking')
+    #   response.body
+    #   =>
+    #   {
+    #     "geocoded_waypoints": [blah..],
+    #     "routes": [blah..],
+    #     "status": "OK"
+    #   }
+    # @param [String] origin: The address or latitude/longitude value from which you wish
+    #   to calculate directions.
+    # @param [String] destination: The address or latitude/longitude value from which
+    #   you wish to calculate directions.
+    #
     class Request
       extend Forwardable
 

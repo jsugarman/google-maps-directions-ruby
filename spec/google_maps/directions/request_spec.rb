@@ -33,9 +33,11 @@ RSpec.describe GoogleMaps::Directions::Request do
 
   describe '#get' do
     context 'with default options set in config', valid_response_with_alternatives: true do
+      # rubocop: disable Layout/LineLength
       let(:expected_uri) do
         'https://maps.googleapis.com/maps/api/directions/json?alternatives=true&destination=DY1 3HQ&key=not-a-real-api-key&origin=SW1A 1AA&region=uk'
       end
+      # rubocop: enable Layout/LineLength
 
       around do |example|
         GoogleMaps::Directions.configure do |config|

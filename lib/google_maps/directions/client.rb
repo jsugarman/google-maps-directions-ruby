@@ -59,7 +59,6 @@ module GoogleMaps
         when 'REQUEST_DENIED'
           raise RequestDeniedError, result['error_message']
         else
-          # binding.pry
           raise Error, result.fetch('error_message',
                                     "#{result['status']} status from directions API")
         end

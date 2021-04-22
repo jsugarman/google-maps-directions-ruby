@@ -13,7 +13,7 @@ module GoogleMaps
     # end
     #
     # see https://developers.google.com/maps/documentation/directions/get-directions#optional-parameters
-    # for more on direction_options
+    # for more on available options
     #
     class Configuration
       attr_accessor :api_key, :default_options

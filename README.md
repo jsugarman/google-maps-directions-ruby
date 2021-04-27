@@ -24,6 +24,22 @@ Or install it yourself as:
 
 TODO: Write usage instructions here
 
+## Configuration
+
+`GoogleMaps::Directions.configure` yields config to a block in which you can supply a valid API key with access to the Googlemaps Directions API, and set any default options.
+
+New instances of `GoogleMaps::Directions::Request` will use this config unless they are overridden in individual
+requests (via `Client.new.directions` options)
+
+Example config to set API key and default options for all API requests
+```
+# config/initializers/google_maps-directions.rb
+GoogleMaps::Directions.configure do |config|
+  config.api_key = ENV['GOOGLEMAPS_API_KEY']
+  config.default_options = { region: 'uk', alternatives: true }
+end
+```
+
 ## Development
 
 After checking out the repo, run `bin/setup` to install dependencies. You can also run `bin/console` for an interactive prompt that will allow you to experiment.

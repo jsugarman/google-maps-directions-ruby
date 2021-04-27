@@ -60,8 +60,7 @@ RSpec.describe GoogleMaps::Directions::Distance do
                       { 'distance' => { 'value' => 100_000 } }] },
          { 'legs' => [{ 'distance' => { 'value' => 100_000 } },
                       { 'distance' => { 'value' => 100_001 } }] },
-         { 'legs' => [{ 'distance' => { 'value' => 200_000 } }] }]
-      }
+         { 'legs' => [{ 'distance' => { 'value' => 200_000 } }] }] }
     end
 
     describe '#<=>' do

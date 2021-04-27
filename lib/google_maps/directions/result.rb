@@ -31,10 +31,12 @@ module GoogleMaps
         result['status'].eql?('OK')
       end
 
+      def routes
+        result['routes']
+      end
+
       def distances
-        @distances ||= result['routes'].map do |route|
-          Distance.new(route)
-        end
+        @distances ||= routes.map { |route| Distance.new(route) }
       end
     end
   end

@@ -7,7 +7,7 @@ RSpec.describe GoogleMaps::Directions::Result do
 
   let(:response) { '{ "raw" : "json" }' }
 
-  it { is_expected.to respond_to(:response, :result, :success?) }
+  it { is_expected.to respond_to(:response, :result, :success?, :routes) }
 
   describe '#[]' do
     subject { result[key] }

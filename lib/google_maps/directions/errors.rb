@@ -10,6 +10,10 @@ module GoogleMaps
 
     # Raised when status REQUEST_DENIED in API response
     #
-    class RequestDeniedError < Error; end
+    class RequestDenied < Error; end
+
+    # Raised when status INVALID_REQUEST in response - origin or destination not provided
+    #
+    class InvalidRequest < Error; end
   end
 end

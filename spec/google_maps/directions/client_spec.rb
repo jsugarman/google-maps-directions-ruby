@@ -9,7 +9,6 @@ RSpec.describe GoogleMaps::Directions::Client do
     subject(:directions) { client.directions(**params, **options) }
 
     let(:client) { described_class.new }
-    let(:api_key) { 'not-a-real-api-key' }
     let(:params) { { origin: 'SW1A 1AA', destination: 'MK40 1HG' } }
     let(:options) { {} }
 
@@ -31,25 +30,38 @@ RSpec.describe GoogleMaps::Directions::Client do
 
     context 'with invalid api key', request_denied: true do
       it {
-        expect { directions }.to raise_error GoogleMaps::Directions::RequestDeniedError, /API key is invalid/
+        expect { directions }.to raise_error GoogleMaps::Directions::RequestDenied, /API key is invalid/
+      }
+    end
+
+    context 'with invalid origin request', invalid_origin_request: true do
+      it {
+        expect { directions }
+          .to raise_error GoogleMaps::Directions::InvalidRequest, /Invalid request. Missing the 'origin' parameter/
+      }
+    end
+
+    context 'with invalid destination request', invalid_destination_request: true do
+      it {
+        expect { directions }
+          .to raise_error GoogleMaps::Directions::InvalidRequest, /Invalid request. Missing the 'destination' parameter/
       }
     end
 
     context 'when unexpected error with error_message', unexpected_error: true do
       it {
-        expect { directions }.to raise_error GoogleMaps::Directions::Error, /oops, something went wrong!/
+        expect { directions }
+          .to raise_error GoogleMaps::Directions::Error, /UNEXPECTED_ERROR: oops, something went wrong!/
       }
     end
 
     context 'when unexpected error without error_message', unexpected_error_without_message: true do
       it {
         expect { directions }
-          .to raise_error GoogleMaps::Directions::Error, /UNEXPECTED_ERROR status from directions API/
+          .to raise_error GoogleMaps::Directions::Error, /UNEXPECTED_ERROR: status from directions API/
       }
     end
 
-    # TODO: with invalid origin
-    # TODO: with invalid destination
     # TODO: with invalid option
     # TODO: with origin as array
     # TODO: with destination as array

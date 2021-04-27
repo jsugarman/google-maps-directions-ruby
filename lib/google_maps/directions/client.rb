@@ -17,28 +17,20 @@ module GoogleMaps
     class Client
       extend Forwardable
 
+      attr_accessor :error_handler
+
       def_delegator 'GoogleMaps::Directions::Request', :get
+
+      def initialize(error_handler: ResultError)
+        self.error_handler = error_handler
+      end
 
       def directions(origin:, destination:, **options)
         response = get(origin, destination, **options)
         result = Result.new(response.body)
         return result if result.success?
 
-        handle_error(result)
-      end
-
-      private
-
-      def handle_error(result)
-        case result['status']
-        when 'OK'
-          nil
-        when 'REQUEST_DENIED'
-          raise RequestDeniedError, result['error_message']
-        else
-          raise Error, result.fetch('error_message',
-                                    "#{result['status']} status from directions API")
-        end
+        error_handler.for(result)
       end
     end
   end

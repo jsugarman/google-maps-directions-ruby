@@ -4,13 +4,14 @@ module GoogleMaps
   module Directions
     # Object representating a single route distance from the
     # Google Maps Directions API
-    # e.g.
-    # result = client.directions(origin: 'an origin', destination: 'a destination', **options)
-    # distance = result.distances.first
-    # distance.value
-    # => 216312
-    # distance.text
-    # => '216 km'
+    #
+    # @example
+    #   result = client.directions(origin: 'an origin', destination: 'a destination', **options)
+    #   distance = result.distances.first
+    #   distance.value
+    #     => 216312
+    #   distance.text
+    #     => '216 km'
     #
     class Distance
       include Comparable

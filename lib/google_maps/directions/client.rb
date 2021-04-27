@@ -4,14 +4,15 @@ module GoogleMaps
   module Directions
     # Target functionality
     #
-    # client = GoogleMaps::Directions::Client.new(api_key: 'my-api-key')
-    # options = { region: 'uk', alternatives: true }
-    # result = client.directions(origin: 'SW1A 1AA', destination: 'SW1A 2AA', options)
-    # distance = result.distances.max
-    # distance.value
-    # => 9999 [in units/metres]
-    # distance.text
-    # => '10 km' [in units/imperial/metric (miles/kilometres)]
+    # @example
+    #   client = GoogleMaps::Directions::Client.new(api_key: 'my-api-key')
+    #   options = { region: 'uk', alternatives: true }
+    #   result = client.directions(origin: 'SW1A 1AA', destination: 'SW1A 2AA', options)
+    #   distance = result.distances.max
+    #   distance.value
+    #     => 9999 [in units/metres]
+    #   distance.text
+    #     => '10 km' [in units/imperial/metric (miles/kilometres)]
     #
     class Client
       extend Forwardable

@@ -5,14 +5,15 @@ require 'json'
 module GoogleMaps
   module Directions
     # Object representating a response from the Google Maps Directions API
-    # e.g.
-    # result = client.directions(origin: 'an origin', destination: 'a destination', **options)
-    # result['status']
-    # => 'OK'
-    # result.success?
-    # => true
-    # result.response
-    # => { "raw" : { "json" : "response" } }
+    #
+    # @example
+    #   result = client.directions(origin: 'an origin', destination: 'a destination')
+    #   result['status']
+    #     => 'OK'
+    #   result.success?
+    #     => true
+    #   result.response
+    #     => { "raw" : { "json" : "response" } }
     #
     class Result
       extend Forwardable

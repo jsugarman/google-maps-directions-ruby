@@ -22,6 +22,7 @@ module GoogleMaps
     #   you wish to calculate directions.
     # @param [kwargs]: one or more options accepted as params on API requests. These will
     #   overide default_options set in config if they are for the same key_word.
+    #
     class Request
       extend Forwardable
 

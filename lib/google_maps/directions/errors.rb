@@ -2,6 +2,9 @@
 
 # StandardError wrapper for this gem
 #
+# see https://developers.google.com/maps/documentation/directions/get-directions#StatusCodes
+# for list of possible statuses/failures
+#
 module GoogleMaps
   module Directions
     # Base error for lib

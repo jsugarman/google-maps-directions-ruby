@@ -4,6 +4,9 @@ module GoogleMaps
   module Directions
     # Error handling factory for failed requests
     #
+    # see https://developers.google.com/maps/documentation/directions/get-directions#StatusCodes
+    # for list of possible statuses/failures
+    #
     class ResultError
       def self.for(result)
         case result['status']

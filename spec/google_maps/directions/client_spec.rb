@@ -62,6 +62,11 @@ RSpec.describe GoogleMaps::Directions::Client do
       }
     end
 
+    # TODO: handle invalid statuses
+    #
+    # see https://developers.google.com/maps/documentation/directions/get-directions#StatusCodes
+    # for list of possible statuses/failures
+    #
     # TODO: with invalid option
     # TODO: with origin as array
     # TODO: with destination as array
